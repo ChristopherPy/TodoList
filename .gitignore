@@ -1,0 +1,17 @@
+env/
+instance/
+todo_app/__pycache__
+__pycache__
+
+
+pip-log.txt
+pip-delete-this-directory.txt
+
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+.webassets-cache
+
+.ipynb_checkpoints
