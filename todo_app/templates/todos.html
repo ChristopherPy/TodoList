@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="container">
+    <a href="{{ url_for('todos.add_todo') }}">
+        <button class="add_button ">Add New Todo</button>
+    </a>
+    <div class="row">
+        <div class="col">
+            {% for todo in todos1 %}
+            <p>------------------------------</p>
+            <ul id =round>
+                <li>{{ todo.todo_name }}</li>
+                <br>
+                <li>{{ todo.deadline.strftime('%A, %d, %b, %Y') }}</li>
+                <br>
+                <li>Status: {{ todo.status }}</li>
+                <br>
+                <a href="{{ url_for('todos.edit_todo', id = todo.id) }}">
+                    <button class="add_button ">Edit Todo</button>
+                </a>
+                <a href="{{ url_for('todos.delete', id = todo.id) }}">
+                    <button class="add_button ">Delete Todo</button>
+                </a>
+            </ul>
+            <p>------------------------------</p>
+            {% endfor %} 
+        </div>
+    </div>
+</section>
+
+{% endblock %}

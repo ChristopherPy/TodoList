@@ -10,6 +10,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+from todo_app.api.views import todos
+app.register_blueprint(todos)
+
 with app.app_context():
     db.create_all()
 
