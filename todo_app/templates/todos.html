@@ -9,20 +9,21 @@
         <div class="col">
             {% for todo in todos1 %}
             <p>------------------------------</p>
-            <ul id =round>
-                <li>{{ todo.todo_name }}</li>
-                <br>
-                <li>{{ todo.deadline.strftime('%A, %d, %b, %Y') }}</li>
-                <br>
-                <li>Status: {{ todo.status }}</li>
-                <br>
-                <a href="{{ url_for('todos.edit_todo', id = todo.id) }}">
-                    <button class="add_button ">Edit Todo</button>
-                </a>
-                <a href="{{ url_for('todos.delete', id = todo.id) }}">
-                    <button class="add_button ">Delete Todo</button>
-                </a>
-            </ul>
+            <p>Task: {{ todo.todo_name }}</p><br>
+            {% if todo.description %}
+            <p>Description: {{ todo.description }}</p>
+            <br>
+            {% endif %}
+            <p>Deadline: {{ todo.deadline.strftime('%A, %d, %b, %Y') }}</p>
+            <br>
+            <p>Status: {{ todo.status }}</p>
+            <br>
+            <a href="{{ url_for('todos.edit_todo', id = todo.id) }}">
+                <button class="add_button ">Edit Todo</button>
+            </a>
+            <a href="{{ url_for('todos.delete', id = todo.id) }}">
+                <button class="add_button ">Delete Todo</button>
+            </a>
             <p>------------------------------</p>
             {% endfor %} 
         </div>
