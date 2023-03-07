@@ -21,6 +21,12 @@ class Todo(db.Model):
     deadline = db.Column(db.DateTime())
     status = db.Column(db.String(255))
     todo_owner = db.Column(db.Integer, db.ForeignKey('user.id'))
+    parent_id = db.Column(db.Integer, db.ForeignKey('todo.id'))
+    children = db.relationship(
+        'Todo',
+        backref=db.backref('parent', remote_side=[id]),
+        cascade='all,delete'
+    )
 
     def __repr__(self):
         return f'ToDo: {self.todo_name} [{self.deadline}]'

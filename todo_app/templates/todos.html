@@ -18,8 +18,12 @@
             <br>
             <p>Status: {{ todo.status }}</p>
             <br>
+            <p>Parent: {{ todo.parent_id }}</p>
             <a href="{{ url_for('todos.edit_todo', id = todo.id) }}">
                 <button class="add_button ">Edit Todo</button>
+            </a>
+            <a href="{{ url_for('todos.add_subtodo', id = todo.id) }}">
+                <button class="add_button">Add SubTodo</button>
             </a>
             <a href="{{ url_for('todos.delete', id = todo.id) }}">
                 <button class="add_button ">Delete Todo</button>

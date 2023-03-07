@@ -12,7 +12,7 @@ def register():
     form = RegisterForm()
     if request.method == 'GET':
         return render_template('register.html', form=form)
-    
+
     if request.method == 'POST':
         if form.validate_on_submit:
             user = User(first_name=form.first_name.data,
@@ -54,7 +54,8 @@ def add_todo():
                         description=form.description.data,
                         deadline=form.deadline.data,
                         status=form.status.data,
-                        todo_owner=user.id)
+                        todo_owner=user.id,
+                        parent_id=None)
             db.session.add(todo)
             db.session.commit()
             return redirect('/todos')
@@ -75,8 +76,6 @@ def edit_todo(id):
     form = EditTodoForm()
     todo = Todo.query.filter_by(id=id, todo_owner=current_user.id).first()
 
-
-# -------------------- TO NIE DZIAŁA TAK JAK POWINNO------------
     if request.method == 'POST':
         if form.submit.data:
             todo.todo_name = form.todo_name.data
@@ -105,3 +104,26 @@ def delete(id):
         abort(404)
 
     return render_template('delete_todo.html', todo=todo)
+
+
+@todos.route('/add_subtodo/<int:id>', methods=['GET', 'POST'])
+def add_subtodo(id):
+    parent_todo = Todo.query.filter_by(
+        id=id, todo_owner=current_user.id).first()
+    form = TodoForm()
+    if request.method == 'GET':
+        return render_template('add_subtodo.html',
+                               form=form,
+                               parent_todo=parent_todo)
+    if request.method == 'POST':
+        user = current_user
+        if form.validate_on_submit:
+            subtodo = Todo(todo_name=form.todo_name.data,
+                           description=form.description.data,
+                           deadline=form.deadline.data,
+                           status=form.status.data,
+                           todo_owner=user.id,
+                           parent_id=parent_todo.id)
+            db.session.add(subtodo)
+            db.session.commit()
+            return redirect('/todos')

@@ -23,12 +23,7 @@ login_manager.init_app(app)
 
 from todo_app.api.models import User
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-
-@app.route('/index')
-def home():
-    return "Initial File"
-

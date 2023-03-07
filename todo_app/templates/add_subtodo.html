@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="container">
+    <div class="row">
+        <div class="col">
+            <form action="" method="post">
+                <p>
+                    {{ form.todo_name.label }}<br>
+                    {{ form.todo_name(size=32) }}
+                </p>
+                <p>
+                    {{ form.description.label }}<br>
+                    {{ form.description(size=64)}}
+                </p>
+                <p>
+                    {{ form.deadline.label }}<br>
+                    {{ form.deadline(size=32) }}
+                </p>
+                <p>
+                    {{ form.status.label }}<br>
+                    {{ form.status()}}
+                </p>
+                <p>{{ form.submit() }}</p>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
