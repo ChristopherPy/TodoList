@@ -10,6 +10,9 @@ todos = Blueprint('todos', __name__)
 @todos.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
+    if current_user.is_authenticated:
+        return redirect('/todos')
+
     if request.method == 'GET':
         return render_template('register.html', form=form)
 
@@ -27,6 +30,8 @@ def register():
 @todos.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    if current_user.is_authenticated:
+        return redirect('/todos')
     if form.validate_on_submit:
         user = User.query.filter_by(email=form.email.data).first()
         if user and check_password_hash(user.password, form.password.data):
@@ -65,7 +70,7 @@ def add_todo():
 def todos1():
     if current_user.is_authenticated:
         todos1 = Todo.query.filter_by(
-            todo_owner=current_user.id).filter(Todo.parent_id is None).all()
+            todo_owner=current_user.id).filter(Todo.parent_id is not None).all()
         return render_template('todos.html', todos1=todos1)
     else:
         return redirect('/login')
