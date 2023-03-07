@@ -1,37 +1,58 @@
 {% extends 'base.html' %}
 {% block content %}
 
+{% macro print_tree_node(todo) %}
+    <p>------------------------------</p>
+    <h4>Task: {{ todo.todo_name }}</h4><br>
+    {% if todo.description %}
+    <p>Description: {{ todo.description }}</p>
+    <br>
+    {% endif %}
+    <p>Deadline: {{ todo.deadline.strftime('%A, %d, %b, %Y') }}</p>
+    <p>Status: {{ todo.status }}</p>
+    <a href="{{ url_for('todos.edit_todo', id = todo.id) }}">
+        <button class="add_button ">Edit Todo</button>
+    </a>
+    <a href="{{ url_for('todos.add_subtodo', id = todo.id) }}">
+        <button class="add_button">Add SubTodo</button>
+    </a>
+    <a href="{{ url_for('todos.delete', id = todo.id) }}">
+        <button class="add_button ">Delete Todo</button>
+    </a>
+    <p>------------------------------</p>
+{% endmacro %}
+
+{% macro print_tree(todos) %}
+    {% for todo in todos %}
+        <ul>
+            {% if todo.children|length == 0 %}
+                <li>
+                    {{ print_tree_node(todo)}}
+                </li>
+            {% else %}
+                <li>
+                    {{ print_tree_node(todo) }}
+                    {{ print_tree(todo.children) }}
+                </li>
+            {% endif %}
+        </ul>
+    {% endfor %}
+{% endmacro %}
+
+
+
 <section class="container">
     <a href="{{ url_for('todos.add_todo') }}">
         <button class="add_button ">Add New Todo</button>
     </a>
     <div class="row">
         <div class="col">
-            {% for todo in todos1 %}
-            <p>------------------------------</p>
-            <p>Task: {{ todo.todo_name }}</p><br>
-            {% if todo.description %}
-            <p>Description: {{ todo.description }}</p>
-            <br>
-            {% endif %}
-            <p>Deadline: {{ todo.deadline.strftime('%A, %d, %b, %Y') }}</p>
-            <br>
-            <p>Status: {{ todo.status }}</p>
-            <br>
-            <p>Parent: {{ todo.parent_id }}</p>
-            <a href="{{ url_for('todos.edit_todo', id = todo.id) }}">
-                <button class="add_button ">Edit Todo</button>
-            </a>
-            <a href="{{ url_for('todos.add_subtodo', id = todo.id) }}">
-                <button class="add_button">Add SubTodo</button>
-            </a>
-            <a href="{{ url_for('todos.delete', id = todo.id) }}">
-                <button class="add_button ">Delete Todo</button>
-            </a>
-            <p>------------------------------</p>
-            {% endfor %} 
+            {{ print_tree(todos1) }}
         </div>
     </div>
 </section>
 
 {% endblock %}
+
+
+

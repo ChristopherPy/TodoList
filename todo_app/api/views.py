@@ -64,7 +64,8 @@ def add_todo():
 @todos.route('/todos')
 def todos1():
     if current_user.is_authenticated:
-        todos1 = Todo.query.filter_by(todo_owner=current_user.id)
+        todos1 = Todo.query.filter_by(
+            todo_owner=current_user.id).filter(Todo.parent_id is None).all()
         return render_template('todos.html', todos1=todos1)
     else:
         return redirect('/login')
