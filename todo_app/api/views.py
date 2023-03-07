@@ -78,23 +78,19 @@ def edit_todo(id):
 
 # -------------------- TO NIE DZIAŁA TAK JAK POWINNO------------
     if request.method == 'POST':
-        if form.validate_on_submit:
-            if form.todo_name.data is not None:
-                todo.todo_name = form.todo_name.data
-            if form.description.data is not None:
-                todo.description = form.description.data
-            if form.deadline.data is not None:
-                todo.deadline = form.deadline.data
-            if form.status.data is not None:
-                todo.status = form.status.data
+        if form.submit.data:
+            todo.todo_name = form.todo_name.data
+            todo.description = form.description.data
+            todo.deadline = form.deadline.data
+            todo.status = form.status.data
             db.session.commit()
             return redirect('/todos')
 
-    # elif request.method == 'GET':
-    #     form.todo_name.data = todo.todo_name
-    #     form.deadline.data = todo.deadline
-    #     form.status.data = todo.status
-    #     return render_template('edit_todo.html', form=form)
+    elif request.method == 'GET':
+        form.todo_name.data = todo.todo_name
+        form.description.data = todo.description
+        form.deadline.data = todo.deadline
+        form.status.data = todo.status
     return render_template('edit_todo.html', form=form, todo=todo)
 
 
