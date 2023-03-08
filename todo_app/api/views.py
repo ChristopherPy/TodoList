@@ -70,7 +70,7 @@ def add_todo():
 def todos1():
     if current_user.is_authenticated:
         todos1 = Todo.query.filter_by(
-            todo_owner=current_user.id).filter(Todo.parent_id is not None).all()
+            todo_owner=current_user.id).filter(Todo.parent_id == None).all()
         return render_template('todos.html', todos1=todos1)
     else:
         return redirect('/login')
