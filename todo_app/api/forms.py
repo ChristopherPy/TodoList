@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, EmailField, PasswordField, SubmitField, \
       DateField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Length, Optional
+from datetime import date
 
 
 class RegisterForm(FlaskForm):
@@ -23,7 +24,9 @@ class LoginForm(FlaskForm):
 class TodoForm(FlaskForm):
     todo_name = StringField('Name', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[Optional()])
-    deadline = DateField('Deadline', validators=[DataRequired()])
+    deadline = DateField('Deadline',
+                         validators=[DataRequired()],
+                         default=date.today())
     status = SelectField('Status', choices=[('Complete', 'Complete'),
                                             ('Not Started', 'Not Started')])
     submit = SubmitField('Add Todo')
@@ -31,7 +34,9 @@ class TodoForm(FlaskForm):
 
 class EditTodoForm(FlaskForm):
     todo_name = StringField('Name', validators=[Optional()])
-    description = TextAreaField('Description', validators=[Optional()])
+    description = TextAreaField('Description',
+                                validators=[Optional()],
+                                default=date.today())
     deadline = DateField('Deadline', validators=[Optional()])
     status = SelectField('Status', choices=[('Complete', 'Complete'),
                                             ('Not Started', 'Not Started')])
